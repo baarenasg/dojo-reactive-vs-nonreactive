@@ -29,7 +29,11 @@ public class DojoStreamTest {
 
     @Test
     void jugadoresMayoresA35SegunClub(){
+        List<Player> list = CsvUtilFile.getPlayers();
+        var result = list.stream().filter(player -> player.getAge() > 35)
+                .collect(Collectors.groupingBy(Player::getClub));
 
+        System.out.println(result);
     }
 
     @Test

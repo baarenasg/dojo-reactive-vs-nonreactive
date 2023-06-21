@@ -24,12 +24,34 @@ public class DojoReactiveTest {
         Flux<Player> observable = Flux.fromIterable(list);
 
         observable.filter(jugador -> jugador.getAge() > 35)
-                .subscribe(System.out::println);
+                .collectList()
+                .map(jugadorList -> {
+                    long size = jugadorList.size();
+                    Player primer = jugadorList.get(0);
+                    Player ultimo = jugadorList.get((int) (size - 1));
+                    System.out.println("Size: " + size);
+                    System.out.println("Primer jugador: \n"+ primer + "\nSegundo jugador\n" + ultimo);
+                    return jugadorList;
+                }).subscribe();
     }
 
 
 @Test
     void jugadoresMayoresA35SegunClub(){
+        List<Player> list = CsvUtilFile.getPlayers();
+        Flux<Player> observable = Flux.fromIterable(list);
+
+        observable.filter(player -> player.getAge() > 35)
+                .groupBy(Player::getClub)
+                .subscribe(group -> {
+                    String key = group.key();
+                    System.out.println("+++++++++++++++++++");
+                    System.out.println(key);
+                    group.map(player -> {
+                        System.out.println(player);
+                        return player;
+                    }).subscribe();
+                });
 
     }
 
