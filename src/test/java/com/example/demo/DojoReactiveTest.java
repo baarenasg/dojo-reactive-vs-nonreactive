@@ -19,7 +19,12 @@ public class DojoReactiveTest {
 
     @Test
     void jugadoresMayoresA35() {
+        List<Player> list = CsvUtilFile.getPlayers();
+        Mono<List<Player>> mono = Mono.just(list);
+        Flux<Player> observable = Flux.fromIterable(list);
 
+        observable.filter(jugador -> jugador.getAge() > 35)
+                .subscribe(System.out::println);
     }
 
 

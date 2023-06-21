@@ -20,7 +20,11 @@ public class DojoStreamTest {
 
     @Test
     void jugadoresMayoresA35(){
-
+        List<Player> list = CsvUtilFile.getPlayers();
+        Set<Player> result = list.stream()
+                .filter(jugador -> jugador.getAge() > 35)
+                .collect(Collectors.toSet());
+        result.forEach(System.out::println);
     }
 
     @Test
